@@ -26,9 +26,6 @@ ENV SPARK_MASTER_PORT=7077
 ENV SPARK_MASTER_HOST=spark-master
 ENV SPARK_MASTER="spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT"
 
-# ENV PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
-# ENV PYSPARK_PYTHON=python3
-
 # Add iceberg spark runtime jar to IJava classpath
 ENV IJAVA_CLASSPATH=/opt/spark/jars/*
 
@@ -68,28 +65,10 @@ COPY entrypoint.sh .
 RUN chmod u+x /opt/spark/entrypoint.sh
 
 
-# Optionally install Jupyter
-# FROM pyspark-runner AS pyspark-jupyter
-
-# RUN pip3 install notebook
-
-# ENV JUPYTER_PORT=8889
-
-# ENV PYSPARK_DRIVER_PYTHON=jupyter
-# ENV PYSPARK_DRIVER_PYTHON_OPTS="notebook --no-browser --allow-root --ip=0.0.0.0 --port=${JUPYTER_PORT}"
-# # --ip=0.0.0.0 - listen all interfaces
-# # --port=${JUPYTER_PORT} - listen ip on port 8889
-# # --allow-root - to run Jupyter in this container by root user. It is adviced to change the user to non-root.
-
-
 ENTRYPOINT ["./entrypoint.sh"]
 CMD [ "bash" ]
 
 # Now go to interactive shell mode
 # -$ docker exec -it spark-master /bin/bash
 # then execute
-# -$ pyspark
-
-# If Jupyter is installed, you will see an URL: `http://127.0.0.1:8889/?token=...`
-# This will open Jupyter web UI in your host machine browser.
-# Then go to /warehouse/ and test the installation.
+# -$ spark-shell
