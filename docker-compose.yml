@@ -51,5 +51,10 @@ services:
       - ./spark-logs:/opt/spark/spark-events
       - ./warehouse:/opt/spark/warehouse
 
+  notebook:
+    build: ./notebook
+    ports:
+      - '8888:8888' # Spark worker Web UI
+
 volumes:
   spark-logs:
