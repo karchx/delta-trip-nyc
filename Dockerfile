@@ -11,6 +11,10 @@ RUN apt-get update && \
       build-essential \
       software-properties-common \
       ssh && \
+      echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list && \
+      curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add && \
+    apt-get update && \
+    apt-get install -y sbt && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -63,7 +67,6 @@ RUN curl https://repo1.maven.org/maven2/org/apache/hudi/hudi-spark3-bundle_2.12/
 
 COPY entrypoint.sh .
 RUN chmod u+x /opt/spark/entrypoint.sh
-
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD [ "bash" ]

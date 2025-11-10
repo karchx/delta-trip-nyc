@@ -1,3 +1,10 @@
+networks:
+  spark-net:
+    driver: bridge
+
+volumes:
+  spark-logs:
+
 services:
   spark-master:
     container_name: spark-master
@@ -14,12 +21,15 @@ services:
       - ./data:/opt/spark/data
       - ./spark-logs:/opt/spark/spark-events
       - ./warehouse:/opt/spark/warehouse
+      - ./data-pipeline:/opt/spark/data-pipeline
     env_file:
       - .env.spark
     ports:
       - '8080:8080' # Spark master Web UI
       - '7077:7077' # For spark-node-to-spark-node queries
       - '4040:4040' # Spark worker data
+    networks:
+      - spark-net
 
   spark-history-server:
     container_name: spark-history
@@ -36,6 +46,8 @@ services:
       - ./warehouse:/opt/spark/warehouse
     ports:
       - '18080:18080'
+    networks:
+      - spark-net
 
   spark-worker:
     container_name: spark-worker
@@ -50,11 +62,5 @@ services:
       - ./data:/opt/spark/data
       - ./spark-logs:/opt/spark/spark-events
       - ./warehouse:/opt/spark/warehouse
-
-  notebook:
-    build: ./notebook
-    ports:
-      - '8888:8888' # Spark worker Web UI
-
-volumes:
-  spark-logs:
+    networks:
+      - spark-net
