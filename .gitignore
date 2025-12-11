@@ -10,6 +10,6 @@ wheels/
 .venv
 spark-logs/
 **/.bsp
-data-pipeline/project
 data/*.parquet
 data/tmp
+**/target
