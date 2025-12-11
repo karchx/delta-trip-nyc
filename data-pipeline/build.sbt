@@ -11,6 +11,9 @@ libraryDependencies ++= Seq(
   // DuckDB
   "org.duckdb" % "duckdb_jdbc" % "0.9.2",
 
+  // Delta Lake
+  "io.delta" %% "delta-spark" % "3.2.1",
+
   // Configuración
   "com.typesafe" % "config" % "1.4.3",
 
